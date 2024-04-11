@@ -63,7 +63,7 @@ public:
         orderedSet.erase(15);
 
         cout << "Проверка наличия элементов:" << endl; 
-        cout << "Ordered Set coдерижт 3: " << boolalpha << orderedSet.contains(3) << endl; //true
+        cout << "Ordered Set coдержит 3: " << boolalpha << orderedSet.contains(3) << endl; //true
         cout << "Ordered Set содержит 15: " << boolalpha << orderedSet.contains(15) << endl; //false
         cout << "Ordered Set содержит 25: " << boolalpha << orderedSet.contains(25) << endl; //true
 
