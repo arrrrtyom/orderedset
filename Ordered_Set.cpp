@@ -9,10 +9,8 @@ class OrderedSet {
 
 public:
     void insert(const T& element) { //вставка в OrderedSet
-        if (Set.find(element) == Set.end()) {
-            Set.insert(element);
-            Order.push_back(&(*Set.find(element)));
-        }
+        auto it = Set.insert(element);
+        if (it.second==true) Order.push_back(&(*it.first));   
     }
 
     void erase(const T& element) { //удаление из OrderedSet
@@ -40,7 +38,10 @@ public:
 
         return Order;
     }
-
+    
+    std::set<T> get_set() {
+        return Set;
+    }
 
     bool contains(const T& element) //проверка на наличие элемента в orderedset
     {
@@ -60,10 +61,15 @@ int main()
     orderedSet.insert(x);
     orderedSet.erase(z);
 
-    std::cout << "Проверка наличия элементов:" << std::endl;
-    std::cout << "Ordered Set coдержит 5: " << std::boolalpha << orderedSet.contains(x) << std::endl; //true
-    std::cout << "Ordered Set содержит 10: " << std::boolalpha << orderedSet.contains(y) << std::endl; //false
-    std::cout << "Ordered Set содержит 2: " << std::boolalpha << orderedSet.contains(z) << std::endl; //true
+    std::cout << "Элементы в set: ";
+    std::set<int> Set = orderedSet.get_set();
+    std::set<int>::iterator it;
+    for (it = Set.begin(); it != Set.end(); it++)
+    {
+        std::cout <<*it<<" ";
+    }
+    
+    std::cout << std::endl;
 
     std::cout << "Порядок вставки:";
     std::vector<const int*> order = orderedSet.get_order();
@@ -76,3 +82,4 @@ int main()
 
     std::cout << std::endl;
 }
+
