@@ -16,6 +16,7 @@ public:
             Order.push_back(&(*it.first));
             return std::make_pair(it.first, true);
         }
+        return std::make_pair(Set.end(), false);
     }
 
     iterator_set erase(iterator_set pos) {
