@@ -5,27 +5,42 @@
 
 template<typename T>
 class OrderedSet {
+    using iterator_set = typename std::set<T>::iterator;
     std::set<T> Set; //set из значений
     std::vector<const T*> Order; //вектор, хранящий адреса элементов в порядке их добавления
 
 public:
-    void insert(const T& element) { //вставка в OrderedSet
+    auto insert(const T& element) { //вставка в OrderedSet
         auto it = Set.insert(element);
-        if (it.second == true) Order.push_back(&(*it.first));
+        if (it.second == true) {
+            Order.push_back(&(*it.first));
+            return std::make_pair(it.first, true);
+        }
     }
 
-    std::pair<typename std::set<T>::iterator, typename std::vector<const T*>::iterator> erase(const T& element) { //удаление из OrderedSet
-        auto iter1 = Set.find(element);
+    iterator_set erase(iterator_set pos) {
+        auto foundElement = Set.find(*pos);
+        if (foundElement == Set.end()) { return Set.end(); };
 
-        //удалить из вектора Order
-        auto iter2 = std::find(Order.begin(), Order.end(), &(*iter1));
-        if (iter2 != Order.end()) iter2 = Order.erase(iter2);
+        auto pointerToRemove = std::remove(Order.begin(), Order.end(), &(*foundElement));
+        if (pointerToRemove != Order.end()) Order.erase(pointerToRemove);
 
-        //удалить из Set
-        iter1 = Set.erase(iter1);
-        
-        //возвращает пару (итератор на элемент из Set,следующий за удалённым, и итератор на элемент из Order, следующий за удалённым)
-        return std::make_pair(iter1, iter2);
+        iterator_set it_erase = Set.erase(foundElement);
+        return it_erase;
+    }
+
+    iterator_set erase(iterator_set first, iterator_set last) {
+
+        iterator_set it = erase(first);
+        while (it != last) {
+            it = erase(it);
+        }
+        return it;
+    }
+    size_t erase(const T& element) { //удаление из OrderedSet
+        auto foundElement = Set.find(element);
+        erase(foundElement);
+        return size_t{ 1 };
     }
 
     std::vector<const T*> get_order() { //функция, возвращающая вектор order
@@ -39,23 +54,28 @@ public:
 
     bool contains(const T& element) //проверка на наличие элемента в orderedset
     {
-        bool flag = Set.find(element) != Set.end();
-        return flag;
+        return Set.find(element) != Set.end();
     }
+
 };
 
 int main()
 {
     setlocale(LC_ALL, "rus");
     OrderedSet<int> orderedSet;
-    int x = 5, y = 10, z = 2;
+    int x = 5, y = 10, z = 2, v = 100, c = 1;
     orderedSet.insert(z);
     orderedSet.insert(y);
     orderedSet.insert(x);
-    orderedSet.erase(z);
+    auto first = orderedSet.insert(c).first;
+    auto last = orderedSet.insert(v).first;
+    //orderedSet.erase(first);
+    //orderedSet.erase(z);
+    orderedSet.erase(first, last);
+    std::set<int> Set = orderedSet.get_set();
 
     std::cout << "Элементы в set: ";
-    std::set<int> Set = orderedSet.get_set();
+
 
     for (auto it = Set.begin(); it != Set.end(); it++)
     {
@@ -69,8 +89,8 @@ int main()
 
     for (auto iter = order.begin(); iter != order.end(); iter++) {
         std::cout << " " << *(*iter); //*iter равен элементу из вектора order, который хранит адреса элементов из set
-        //*(*iter) позволяет получить само значение элемента, хранящееся по этому адресу
-    } //вывод: 10 5
+                        //*(*iter) позволяет получить само значение элемента, хранящееся по этому адресу
+    }
 
     std::cout << std::endl;
 }
