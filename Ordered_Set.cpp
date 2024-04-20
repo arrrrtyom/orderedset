@@ -131,7 +131,7 @@ int main()
     std::cout << std::endl << "" << std::endl;
 
     std::cout << "Начальный элемент из диапазона для удаления: 0" << std::endl;
-    std::cout << "Конечный элемент из диапазона для удаления: 200" << std::endl;
+    std::cout << "Конечный элемент из диапазона для удаления: 18" << std::endl;
     orderedSet.erase(orderedSet.begin(), std::next(orderedSet.begin(), 2));
 
     std::cout << "Set после удаления: ";
