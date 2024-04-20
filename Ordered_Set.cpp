@@ -91,7 +91,6 @@ int main()
     orderedSet.insert(0);
     orderedSet.insert(500);
     orderedSet.insert(200);
-    std::set<int> Set = orderedSet.get_set();
     std::cout << "OrderedSet до вставки новых элементов" << std::endl << "Set: ";
     orderedSet.print_set();
     std::cout << std::endl << "Вектор: ";
