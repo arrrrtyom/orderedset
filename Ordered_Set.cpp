@@ -30,12 +30,9 @@ public:
     iterator_set erase(iterator_set first, iterator_set last) {
 
         iterator_set afterLastRemoved;
-
         while (first != last)
         {
             afterLastRemoved = erase(first++);
-            std::cout << *first << " ";
-
         }
         return afterLastRemoved;
     }
