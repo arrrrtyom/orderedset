@@ -19,12 +19,10 @@ public:
     }
 
     iterator_set erase(iterator_set pos) {
-        auto foundElement = Set.find(*pos);
-        auto pointerToRemove = std::remove(Order.begin(), Order.end(), &(*foundElement));
-        if (pointerToRemove != Order.end()) Order.erase(pointerToRemove);
-        iterator_set it_erase = Set.erase(foundElement);
-        return it_erase;
-
+        
+        auto pointerToRemove = std::find(Order.begin(), Order.end(), &(*pos));
+       if (pointerToRemove != Order.end()) Order.erase(pointerToRemove);
+     return Set.erase(pos);
     }
 
     iterator_set erase(iterator_set first, iterator_set last) {
@@ -36,13 +34,12 @@ public:
         }
         return afterLastRemoved;
     }
+
     size_t erase(const T& element) {
         auto foundElement = Set.find(element);
-        if (foundElement != Set.end()) {
-            erase(foundElement);
-            return size_t{ 1 };
-        }
-        return size_t{ 0 };
+        if (foundElement == Set.end()) { return { 0 }; }
+        erase(foundElement);
+        return { 1 };
     }
 
     std::vector<const T*> get_order() { //функция, возвращающая вектор order
@@ -120,17 +117,17 @@ int main()
     orderedSet.print_vector();
     std::cout << std::endl << "" << std::endl;
 
-    std::cout << "Удаляемый элемент (по итератору): 5" << std::endl;
-    std::cout << "Удаляемый элемент (по итератору): 11" << std::endl;
-    orderedSet.erase((orderedSet.get_set()).find(5));
-    orderedSet.erase((orderedSet.get_set()).find(11));
+    std::cout << "Удаляемый элемент (по итератору): 0" << std::endl;
+    std::cout << "Удаляемый элемент (по итератору): 6" << std::endl;
+    orderedSet.erase(orderedSet.begin());
+    orderedSet.erase(std::next(orderedSet.begin(),1));
     std::cout << "Set после удаления: ";
     orderedSet.print_set();
     std::cout << std::endl << "Вектор после удаления: ";
     orderedSet.print_vector();
     std::cout << std::endl << "" << std::endl;
 
-    std::cout << "Начальный элемент из диапазона для удаления: 0" << std::endl;
+    std::cout << "Начальный элемент из диапазона для удаления: 5" << std::endl;
     std::cout << "Конечный элемент из диапазона для удаления: 18" << std::endl;
     orderedSet.erase(orderedSet.begin(), std::next(orderedSet.begin(), 2));
 
