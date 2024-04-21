@@ -119,8 +119,8 @@ int main()
 
     std::cout << "Удаляемый элемент (по итератору): 0" << std::endl;
     std::cout << "Удаляемый элемент (по итератору): 6" << std::endl;
-    orderedSet.erase(orderedSet.begin());
-    orderedSet.erase(std::next(orderedSet.begin(),1));
+    orderedSet.erase((orderedSet.get_set()).find(0));
+    orderedSet.erase((orderedSet.get_set()).find(6));
     std::cout << "Set после удаления: ";
     orderedSet.print_set();
     std::cout << std::endl << "Вектор после удаления: ";
