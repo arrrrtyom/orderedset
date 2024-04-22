@@ -41,6 +41,7 @@ public:
         erase(foundElement);
         return { 1 };
     }
+
 template <typename... Args>
     auto emplace(Args... args){
         auto it = Set.emplace(args...);
@@ -82,19 +83,19 @@ template <typename... Args>
 
 class Book {
     public:
-    std::string name;
     std::string author;
+    std::string name;
     int year_of_publication;
-    Book(std::string _name, std::string _author, int _year):
-        name{_name}, author{_author}, year_of_publication{_year} {}
+    Book(std::string Author, std::string Name, int Year):
+        author{Author}, name{Name}, year_of_publication{Year} {}
 
-     bool operator<(const Book &other) const  {
-        return year_of_publication < other.year_of_publication;
+     bool operator<(const Book &another_book) const  {
+        return year_of_publication < another_book.year_of_publication;
     }
 
     
 friend std::ostream& operator<<(std::ostream& os, const Book& book) {
-        os << "Название: " << book.name << ", Автор: " << book.author << ", Год публикации: " << book.year_of_publication;
+        os << "Автор: " << book.author << ", Название: " << book.name << ", Год публикации: " << book.year_of_publication;
         return os;
     }
 };
@@ -120,7 +121,7 @@ int main()
     std::cout << std::endl << "" << std::endl;
 
     //Тест вставки
-    std::cout << "Вставка элементов..." << std::endl;
+    std::cout << "Вставка элементов c помощью insert..." << std::endl;
     std::cout << "Вставляемый элемент: " << 5 << " Успешность вставки: " << std::boolalpha << (orderedSet.insert(5)).second << std::endl; //не вставится, уже есть такой элемент
     std::cout << "Вставляемый элемент: " << 4 << " Успешность вставки: " << std::boolalpha << (orderedSet.insert(4)).second << std::endl; //вставится
     std::cout << "Вставляемый элемент: " << 18 << " Успешность вставки: " << std::boolalpha << (orderedSet.insert(18)).second << std::endl; //не вставится, уже есть такой элемент
@@ -154,32 +155,36 @@ int main()
 
     std::cout << "Начальный элемент из диапазона для удаления: 5" << std::endl;
     std::cout << "Конечный элемент из диапазона для удаления: 18" << std::endl;
-    orderedSet.erase(orderedSet.begin(), std::next(orderedSet.begin(), 2));
+    orderedSet.erase(orderedSet.get_set().find(5), orderedSet.get_set().find(18));
 
     std::cout << "Set после удаления: ";
     orderedSet.print_set();
     std::cout << std::endl << "Вектор после удаления: ";
     orderedSet.print_vector();
-
+    std::cout<<std::endl<<""<<std::endl;
     //Тест emplace
-    std::cout<<"Элемент для вставки:"<<35<<std::endl;
-    orderedSet.emplace(35);
-    std::cout<<"Set после вставки:";
-    orderedSet.print_set();
-    std::cout<<std::endl<<"Вектор после вставки: ";
-    orderedSet.print_vector();
-    OrderedSet <Book> Books;
-    std::cout << std::endl;
-    Books.emplace("М. А. Булгаков", "Мастер и Маргарита", 1967);
-    Books.emplace("Н. В. Гоголь", "Ревизор",1835);
-    Books.emplace("Ф. М. Достоевский", "Преступление и наказание", 1866);
-    std::cout<<"Книги, отсортированные по году публикации:"<<std::endl;
-    for (auto it = Books.begin(); it!=Books.end(); it++){
+
+std::cout<<"Вставка элементов с помощью emplace для базового типа..."<<std::endl;
+std::cout<<"Элемент для вставки:"<<35<<std::endl;
+orderedSet.emplace(35);
+std::cout<<"Set после вставки:";
+orderedSet.print_set();
+std::cout<<std::endl<<"Вектор после вставки: ";
+orderedSet.print_vector();
+
+OrderedSet <Book> Books;
+Books.emplace("М. А. Булгаков", "Мастер и Маргарита", 1967);
+Books.emplace("Н. В. Гоголь", "Ревизор",1835);
+Books.emplace("Ф. М. Достоевский", "Преступление и наказание", 1866);
+std::cout << std::endl << "" << std::endl;
+std::cout<<"Вставка элементов с помощью emplace для пользовательного класса..."<<std::endl;
+std::cout<<"Книги, отсортированные по году публикации:"<<std::endl;
+for (auto it = Books.begin(); it!=Books.end(); it++){
     std::cout<<(*it)<<std::endl;
-    }
-    std::cout<<""<<std::endl;
-    std::cout<<"Книги в порядке добавления:"<<std::endl;
-    for (auto it = Books.get_order().begin(); it != Books.get_order().end(); it++) {
+}
+std::cout<<""<<std::endl;
+std::cout<<"Книги в порядке добавления:"<<std::endl;
+for (auto it = Books.get_order().begin(); it != Books.get_order().end(); it++) {
         std::cout << (*(*it)) << std::endl;
     }
 }
