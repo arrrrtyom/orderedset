@@ -94,9 +94,9 @@ class Book {
     }
 
     
-friend std::ostream& operator<<(std::ostream& os, const Book& book) {
-        os << "Автор: " << book.author << ", Название: " << book.name << ", Год публикации: " << book.year_of_publication;
-        return os;
+friend std::ostream& operator<<(std::ostream& out, const Book& book) {
+        out << "Автор: " << book.author << ", Название: " << book.name << ", Год публикации: " << book.year_of_publication;
+        return out;
     }
 };
 
