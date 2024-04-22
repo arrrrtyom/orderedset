@@ -41,13 +41,19 @@ public:
         erase(foundElement);
         return { 1 };
     }
+template <typename... Args>
+    auto emplace(Args... args){
+        auto it = Set.emplace(args...);
+        if(it.second==true) {Order.push_back(&(*it.first));}
+        return it;
+    }
 
-    std::vector<const T*> get_order() { //функция, возвращающая вектор order
+    std::vector<const T*>& get_order() { //функция, возвращающая вектор order
 
         return Order;
     }
 
-    std::set<T> get_set() {
+    std::set<T>& get_set() {
         return Set;
     }
 
@@ -72,6 +78,25 @@ public:
 
     iterator_set begin() { return Set.begin(); }
     iterator_set end() { return Set.end(); }
+};
+
+class Book {
+    public:
+    std::string name;
+    std::string author;
+    int year_of_publication;
+    Book(std::string _name, std::string _author, int _year):
+        name{_name}, author{_author}, year_of_publication{_year} {}
+
+     bool operator<(const Book &other) const  {
+        return year_of_publication < other.year_of_publication;
+    }
+
+    
+friend std::ostream& operator<<(std::ostream& os, const Book& book) {
+        os << "Название: " << book.name << ", Автор: " << book.author << ", Год публикации: " << book.year_of_publication;
+        return os;
+    }
 };
 
 
@@ -136,6 +161,25 @@ int main()
     std::cout << std::endl << "Вектор после удаления: ";
     orderedSet.print_vector();
 
-
+    //Тест emplace
+    std::cout<<"Элемент для вставки:"<<35<<std::endl;
+    orderedSet.emplace(35);
+    std::cout<<"Set после вставки:";
+    orderedSet.print_set();
+    std::cout<<std::endl<<"Вектор после вставки: ";
+    orderedSet.print_vector();
+    OrderedSet <Book> Books;
     std::cout << std::endl;
+    Books.emplace("М. А. Булгаков", "Мастер и Маргарита", 1967);
+    Books.emplace("Н. В. Гоголь", "Ревизор",1835);
+    Books.emplace("Ф. М. Достоевский", "Преступление и наказание", 1866);
+    std::cout<<"Книги, отсортированные по году публикации:"<<std::endl;
+    for (auto it = Books.begin(); it!=Books.end(); it++){
+    std::cout<<(*it)<<std::endl;
+    }
+    std::cout<<""<<std::endl;
+    std::cout<<"Книги в порядке добавления:"<<std::endl;
+    for (auto it = Books.get_order().begin(); it != Books.get_order().end(); it++) {
+        std::cout << (*(*it)) << std::endl;
+    }
 }
