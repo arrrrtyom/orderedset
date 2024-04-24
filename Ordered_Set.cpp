@@ -24,7 +24,7 @@ public:
         {
             emplace(*it);
         }
-   }
+    }
     
     auto insert(const T& element) //вставка в OrderedSet
     {
