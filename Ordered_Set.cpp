@@ -135,14 +135,12 @@ class Book
         return year_of_publication < another_book.year_of_publication;
     }
 
-    
     friend std::ostream& operator<<(std::ostream& out, const Book& book) 
     {
         out << "Автор: " << book.author << ", Название: " << book.name << ", Год публикации: " << book.year_of_publication;
         return out;
     }
 };
-
 
 template <typename T>
 void test_insert(OrderedSet<T> &orderedSet)
