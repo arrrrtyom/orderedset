@@ -22,7 +22,7 @@ public:
     {   
         for (auto it = l.begin(); it!=l.end(); it++)
         {
-            emplace(*it);
+            insert(*it);
         }
     }
     
