@@ -212,7 +212,7 @@ void test_emplace(OrderedSet<T>& orderedSet)
 }
 
 template <typename T>
-void print_orderedSet( OrderedSet<T>& orderedSet)
+void print_orderedSet(OrderedSet<T>& orderedSet)
 {  std::cout<<"Set: ";
     for(auto it = orderedSet.begin(); it != orderedSet.end(); ++it)
     {
